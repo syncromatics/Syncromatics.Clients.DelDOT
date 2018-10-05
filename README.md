@@ -1,12 +1,8 @@
 # Delaware Department of Transportation Transit Arrivals API client
 
-_Coming soon_
+A .NET library to interact with the DelDOT arrivals api
 
 ## Quickstart
-
-This section should get the reader into using the software as quickly as possible. Favor examples over exposistion. For example:
-
-Add the `Syncromatics.Clients.DelDOT.Api` package to your project:
 
 ```bash
 dotnet add package Syncromatics.Clients.DelDOT.Api
@@ -15,15 +11,9 @@ dotnet add package Syncromatics.Clients.DelDOT.Api
 Then use it to do a thing:
 
 ```csharp
-var client = new Syncromatics.Clients.DelDOT.Api.Client();
-var result = await client.DoThing();
-if (result.HasThing)
-{
-    Console.WriteLine($"The result is {result.Message}");
-}
+DelDOTClient client = new DelDOTClient();
+StopArrivals arrivals = await client.GetStopArrivalsAsync(3832);
 ```
-
-If available, add a link to other documentation for this software. Avoid documenting the entire project in this README.
 
 ## Building
 
@@ -31,7 +21,14 @@ If available, add a link to other documentation for this software. Avoid documen
 [![NuGet](https://img.shields.io/nuget/v/Syncromatics.Clients.DelDOT.Api.svg)](https://www.nuget.org/packages/Syncromatics.Clients.DelDOT.Api/)
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Syncromatics.Clients.DelDOT.Api.svg)](https://www.nuget.org/packages/Syncromatics.Clients.DelDOT.Api/)
 
-Write a few sentences on how to set up a build environment for this software. These instructions should include prerequisites like required tools, frameworks, and libraries that the reader will need to successfully build this software.
+```
+dotnet build
+```
+
+## Testing
+```
+dotnet test tests/Syncromatics.Clients.DelDOT.Api.Tests
+```
 
 ## Code of Conduct
 
