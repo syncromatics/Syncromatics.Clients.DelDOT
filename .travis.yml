@@ -1,0 +1,15 @@
+language: csharp
+
+os: linux # Ubuntu 14.04
+dist: trusty
+sudo: required
+dotnet: 2.0.0
+
+script:
+  - dotnet restore
+  - dotnet build
+  - dotnet test tests/Syncromatics.Clients.DelDOT.Api.Tests
+  - "if [[ $TRAVIS_PULL_REQUEST == 'false' && $TRAVIS_TAG ]]; then 
+  dotnet pack src/Syncromatics.Clients.DelDOT.Api --configuration Release /p:Version=$TRAVIS_TAG;
+  nuget push src/Syncromatics.Clients.DelDOT.Api/bin/Release/*.nupkg -ApiKey $NUGET_API_KEY;
+  fi"
