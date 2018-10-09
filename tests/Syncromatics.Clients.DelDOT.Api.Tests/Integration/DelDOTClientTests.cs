@@ -34,6 +34,15 @@ namespace Syncromatics.Clients.DelDOT.Api.Tests.Integration
 
             result.Arrivals[0].ArrivalTimes[0].TripId.Should().NotBeEmpty();
             result.Arrivals[0].ArrivalTimes[0].Destination.Should().NotBeEmpty();
+
+            result.Arrivals[0].ArrivalTimes[0].ScheduledArrivalTime.ToLongTimeString()
+                .Should().NotBeNullOrEmpty();
+
+            var estArrivalTime = result.Arrivals[0].ArrivalTimes[0].EstimatedArrivalTime;
+            if (estArrivalTime.HasValue)
+            {
+                estArrivalTime.Value.ToLongTimeString().Should().NotBeNullOrEmpty();
+            }
         }
     }
 }
