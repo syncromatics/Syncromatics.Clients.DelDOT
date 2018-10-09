@@ -22,6 +22,10 @@ namespace Syncromatics.Clients.DelDOT.Api
         public bool ServiceAvailable { get; set; }
         public bool BusDetails { get; set; }
         public string Destination { get; set; }
+        [JsonProperty("busSchArrival")]
+        public DateTime ScheduledArrivalTime { get; set; }
+        [JsonProperty("busEstArrival")]
+        public DateTime? EstimatedArrivalTime { get; set; }
         [JsonProperty("busEstCountdown")]
         public int EstimatedArrivalMinutes { get; set; }
         [JsonProperty("busSchCountdown")]
