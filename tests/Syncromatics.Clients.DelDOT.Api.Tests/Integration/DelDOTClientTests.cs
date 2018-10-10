@@ -19,6 +19,9 @@ namespace Syncromatics.Clients.DelDOT.Api.Tests.Integration
         [Theory]
         [InlineData(3832)]
         [InlineData(3852)]
+        [InlineData(560)]
+        [InlineData(357)]
+        [InlineData(673)]
         public async Task ShouldGetArrivals(int stopId)
         {
             var result = await _client.GetStopArrivalsAsync(stopId);
@@ -28,20 +31,30 @@ namespace Syncromatics.Clients.DelDOT.Api.Tests.Integration
             result.StopId.Should().Be(stopId);
             result.Arrivals.Should().NotBeEmpty();
 
-            result.Arrivals[0].Route.Should().NotBeEmpty();
-            result.Arrivals[0].RouteTitle.Should().NotBeEmpty();
-            result.Arrivals[0].ArrivalTimes.Should().NotBeEmpty();
-
-            result.Arrivals[0].ArrivalTimes[0].TripId.Should().NotBeEmpty();
-            result.Arrivals[0].ArrivalTimes[0].Destination.Should().NotBeEmpty();
-
-            result.Arrivals[0].ArrivalTimes[0].ScheduledArrivalTime.ToLongTimeString()
-                .Should().NotBeNullOrEmpty();
-
-            var estArrivalTime = result.Arrivals[0].ArrivalTimes[0].EstimatedArrivalTime;
-            if (estArrivalTime.HasValue)
+            foreach (var route in result.Arrivals)
             {
-                estArrivalTime.Value.ToLongTimeString().Should().NotBeNullOrEmpty();
+                route.Route.Should().NotBeEmpty();
+                route.RouteTitle.Should().NotBeEmpty();
+
+                if (route.ServiceAvailable)
+                {
+                    route.ArrivalTimes.Should().NotBeEmpty();
+
+                    foreach (var arrival in route.ArrivalTimes)
+                    {
+                        arrival.TripId.Should().NotBeEmpty();
+                        arrival.Destination.Should().NotBeEmpty();
+
+                        arrival.ScheduledArrivalTime.Value.ToLongTimeString()
+                            .Should().NotBeNullOrEmpty();
+
+                        var estArrivalTime = arrival.EstimatedArrivalTime;
+                        if (estArrivalTime.HasValue)
+                        {
+                            estArrivalTime.Value.ToLongTimeString().Should().NotBeNullOrEmpty();
+                        }
+                    }
+                }
             }
         }
     }
